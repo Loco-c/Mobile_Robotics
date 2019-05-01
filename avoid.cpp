@@ -39,26 +39,26 @@ ArActionDesired * avoid::fire(ArActionDesired d)// removed most of code
 	switch (state)
 	{
 	case detect :
-		if (frontSonar <= range) { walls = true; } // stating that if range is equal to 500m then return walls as true
+		if (frontSonar >= range) { walls = true; } // stating that if range is equal to 500m then return walls as true
 		
 		if (walls)
 		{
-			if (frontSonar <= range) { state = front; }
+			if (frontSonar >= range) { state = front; }
 
 
-			else if (leftSonar <= range)
+			else if (leftSonar >= range)
 			{
 				state = right;   //else if the state equals right then set deltaHeading to -1(left) 
 			}
 		
 
-		else if (rightSonar <= range)
+		else if (rightSonar >= range)
 			{
 				state = left;   // if state equals left then set deltaheading 1 (right)
 			}
 			
 
-			else if (rearSonar <= range)
+			else if (rearSonar >= range)
 			{
 				state = Rear;
 			}
@@ -90,7 +90,7 @@ ArActionDesired * avoid::fire(ArActionDesired d)// removed most of code
 		}
 		break;
 	case front:
-		deltaHeading = -5; // Set Delta heading to front
+		deltaHeading = 5; // Set Delta heading to front
 		speed = 0;
 		if (frontSonar >= range)
 		{
@@ -125,4 +125,3 @@ ArActionDesired * avoid::fire(ArActionDesired d)// removed most of code
 	return &desiredState; // give the desired state to the robot for actioning
 
 	}
-

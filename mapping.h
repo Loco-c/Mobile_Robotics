@@ -19,6 +19,7 @@ public:
 	sf::RenderWindow window;
 	sf::RectangleShape robotshape;
 	std::vector<sf::CircleShape > scatterpoints;
+	sf::Event event;
 	double robotR;
 	double angle;
 	double r;

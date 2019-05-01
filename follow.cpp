@@ -11,15 +11,17 @@ follow::follow() : ArAction("Follow Edge")
 	deltaHeading = 0; // Straight line
 
 	setPoint = 400; // 0.5 m was 500
-
+	
 					// Proportional control
 	pGain = 0.01; //Changed from 0 to 0.01
-	pre_error = 0.0; // previous error 
+	pre_error = 0.00; // previous error 
 	DGain = 0.01; // Derivative Proportinal 
-	Maxout = 0.0; // max output 
-	//wall = false; // setting walls to false 
-	//range = 400; // setting distance to 400m
-	//state = findwalls; // setting state to forward
+	Maxout = 0.00; // max output 
+	
+	
+	walls = false; // setting walls to false 
+	range = 400; // setting distance to 400m
+	state = View_walls;
 }
 
 // Body of action
@@ -46,7 +48,7 @@ ArActionDesired * follow::fire(ArActionDesired d)
 	output = pGain * error;
 	if (output < 0) {
 		if (output < -Maxout) {
-			std::cout << "Output:  " << output << "  Max0ut:  " << -Maxout << std::endl;
+			std::cout << "Output:  " << output <<std::endl;
 		}
 	}
 
@@ -55,15 +57,16 @@ ArActionDesired * follow::fire(ArActionDesired d)
 	output = DGain * error - pre_error;
 	if (output < 0) {
 		if (output < -Maxout) {
-			std::cout << "Output:  " << output << "Max0ut:  " << -Maxout << std::endl;
+			std::cout << "Output:  " << output << std::endl;
 		}
 	}
 
 	
+	
 	// Implement control action
 	deltaHeading = output;
 
-	std:: cout << " LeftSonar: " << leftSonar << " RighSonar: " << rightSonar << " frontSonar: " << frontSonar  << " rearSonar: "<< rearSonar << " error: " << error << " output:  " << output << " Maxout:  " << -Maxout << "Previous Error :"<< pre_error << std:: endl;
+	std:: cout << " LeftSonar: " << leftSonar << " RighSonar: " << rightSonar << " frontSonar: " << frontSonar  << " rearSonar: "<< rearSonar << " error: " << error << " output:  " << output << " Previous Error :"<< pre_error << std:: endl;
 
 
 	desiredState.setVel(speed); // set the speed of the robot in the desired state

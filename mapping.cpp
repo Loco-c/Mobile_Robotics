@@ -18,12 +18,12 @@ mapping::mapping() : ArAction("avoidance")
 {
 	window.create(sf::VideoMode(940, 680), "Robot Map!");
 	robotshape.setFillColor(sf::Color(255, 0, 0)); // colour of robot 
-	robotshape.setSize(sf::Vector2f(250.f, 300.f)); // setting size of robot
+	robotshape.setSize(sf::Vector2f(100.f, 100.f)); // setting size of robot 250.f, 300.f
 	window.setActive(false); // allows window to be written too
 	Writer.open("Mapping.csv");
 	//Writer.clear(); // for testing purposes
 	Writer << "Global X, Global Y"  << "\n";
-
+	sf::Event event;
 
 }
 ArActionDesired * mapping::fire(ArActionDesired d)// removed most of code
@@ -70,7 +70,7 @@ robotshape.setPosition(sf::Vector2f(myRobot->getX(),myRobot->getY())); // robot 
 
 	
 	//Camera View
-	sf::View camera(sf::FloatRect(0, 0, 10000, 10000));// sf::View camera(sf::FloatRect(0, 0, 10000, 10000));
+	sf::View camera(sf::FloatRect(0, 0, 10000, 10000));// sf::View camera(sf::FloatRect(0, 0, 10000Width, 10000Height));
 	camera.setCenter(0, 0);
 	camera.move(100.f, 100.f);
 
@@ -79,25 +79,18 @@ robotshape.setPosition(sf::Vector2f(myRobot->getX(),myRobot->getY())); // robot 
 		for (int i = 0; i < 16; i++) {
 			int SonarReading = myRobot->getSonarRange(i);
 			int SonarAngle = SonarAngle_Array[i];
-			// add mathes here add points ( x and y pose)
-
-
-		//	sf::Vector3f xyTheta = sf::Vector3f(myRobot->getX(), myRobot->getY(), myRobot->getTh());
-			// return value x, y  to file 
-			 // vectors for x and y positon
-
-
-		}
+			}
 		// scatter points creator
-		sf::CircleShape temp;
-		temp.setFillColor(sf::Color(255, 0, 0));// set colour 
-		temp.setRadius(50.f); //size of shape   
-		temp.setPosition(gPosX, gPosY);
-		scatterpoints.push_back(temp);
-		
+		if (r < 5000) {
+			sf::CircleShape temp;
+			temp.setFillColor(sf::Color(255, 0, 0));// set colour 
+			temp.setRadius(20.f); //size of shape size 50.f   
+			temp.setPosition(gPosX / 2, gPosY / 2);
+			scatterpoints.push_back(temp);
+		}
 	
 		// window close function 
-		sf::Event  event;
+		
 		while (window.pollEvent(event))
 		{
 			switch (event.type)
@@ -105,10 +98,14 @@ robotshape.setPosition(sf::Vector2f(myRobot->getX(),myRobot->getY())); // robot 
 			case sf::Event::EventType::Closed:
 				window.close();
 				break;
+			case sf::Event::KeyPressed:
+				// keypress event 
+				camera.rotate(5); // rotate screen b 
+				break;
 			}
 		}
 		
-		robotshape.setPosition(sf::Vector2f(myRobot->getX(),myRobot->getY()));
+		robotshape.setPosition(sf::Vector2f(myRobot->getX()/2,myRobot->getY()/2));
 
 		// for loop to plot scatter points 
 	window.clear();

@@ -1,4 +1,11 @@
 // Signatures
+enum f_walls {
+	
+	View_walls,
+	No_walls
+
+};
+
 class follow : public ArAction // Class action inherits from ArAction
 {
  public:
@@ -14,7 +21,9 @@ class follow : public ArAction // Class action inherits from ArAction
    double rearSonar; // rear sensors 
    double leftSonar; // left sensor
    double rightSonar; // right sensors
-   
+   bool walls; // to find objects/ walls 
+   int range; //  set distance 
+   f_walls state; // setting state 
 
    // Control variables
    double setPoint; // Set point of the controller
@@ -24,4 +33,5 @@ class follow : public ArAction // Class action inherits from ArAction
    double pre_error; // previous Gain
    double DGain; //  Derivative Gain;
    double Maxout;// angle
+   
 };

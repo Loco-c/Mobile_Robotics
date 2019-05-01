@@ -5,14 +5,14 @@
 #include <cstdio>
 #include <algorithm>
 #include <fstream>
-
+#include <vector>
 
 // header files include
 #include "wander.h"
 
 //using std::ofstream;
 //using std::ifstream;
-
+using std::cin;
 // Constructor
 wander::wander() : ArAction("FSM")
 {
@@ -20,6 +20,8 @@ wander::wander() : ArAction("FSM")
 	srands = 0; // random function 
 	state = Forward;//
 	counter = 0;
+	Points = 1;
+
 	/*
 	// File write  and reads for Current Position 
 	Writer_C.open("wander_Cpos.csv");
@@ -45,8 +47,6 @@ ArActionDesired * wander::fire(ArActionDesired d)
 	Pos_X = 0.0;
 	Pos_Y = 0.0;
 
-	currentposition = (myRobot->getX(), myRobot->getY());  // getting robot current pos
-	previousposition = (myRobot->getX(), myRobot->getY()); // setting previous position to my currebt position 	
 	
 	previousposition = currentposition; // 
 	//if (currentposition <= previousposition) { state = changePos; } //  telling robot to keep moving 
@@ -69,15 +69,34 @@ ArActionDesired * wander::fire(ArActionDesired d)
 	else  {
 		std::cout << "Fail to load file!\n" << std::endl;
 	}
+	*/
+	//currentposition = (myRobot->getX(), myRobot->getY());  // getting robot current pos
+	// setting previous position to my currebt position 	
+
+	// Get sonar readings
 	
+	
+	//currentposition = myRobot->getX(),myRobot->getY();
+	//previousposition = currentposition;
+
 	if (counter == 0) { // If the counter has finished counting down to 0
 		state = static_cast<Estate>(rand() % 3); //Set the state to a random state from 0 - 3| static cast turns the random int into the ENUM [Estate] so that state can be set to the new state
 		counter = rand() % 69 + 50; // Set the timer to a random number 50 - 120
 	}
-	*/
+	
 	// Implementing wander Function
 	
+	
+	//if (previousposition <= currentposition){state = Forward;} 
 
+	/*
+	for (int i = 1; i > Points; i++) 
+	{
+		std::cout << "" << std::endl;
+		return ;
+
+	}
+	*/
 	switch (state)
 	{
 	case Forward:
@@ -91,14 +110,13 @@ ArActionDesired * wander::fire(ArActionDesired d)
 		deltaHeading = -1; // Left function value -10
 		break;
 	case changePos:
-		//if(previousposition = ){}
 		deltaHeading = 200;
+	
 		break;
 	}
 		--counter; //for counter function uses-=1
 
 	std::cout << "  Wander State:  " << state << "  Timer: " << counter << std::endl;
-	std::cout << " Current Position:  " << currentposition << " Previous Position:  " << previousposition << std::endl; // printing out current position and previous position  
 	desiredState.setDeltaHeading(deltaHeading);
 	desiredState.setVel(speed);
 	return &desiredState; // give the desired state to the robot for actioning
